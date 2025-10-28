@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: 0,
+  value: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")): null ,
 }
 
 export const userSlice = createSlice({
@@ -9,8 +9,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     userInfo: (state, action) => {
-        console.log(state);
-        console.log(action);
+        console.log(state.value);
+        console.log(action.payload);
+        state.value = action.payload
         
     },
     

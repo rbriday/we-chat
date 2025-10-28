@@ -9,11 +9,14 @@ import {
 } from "firebase/auth";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { PropagateLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { userInfo } from "../components/firebase/Slices/userSlice";
 
 const Login = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // input state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,6 +67,8 @@ const Login = () => {
         .then((user) => {
           toast.success("Login Successfully done..");
           console.log(user);
+          dispatch(userInfo(user.user))
+          localStorage.setItem("userInfo", JSON.stringify(user))
           setTimeout(() => {
             navigate("/");
           }, 3000);
