@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router/dom";
 import Registration from "./Pages/Registration";
 import Login from "./Pages/Login";
 import Forgot from "./Pages/Forgot";
+import firebaseConfig from "./components/firebase/firebaseConfig";
 
 
 function App() {
