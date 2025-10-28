@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { TbEyeUp } from "react-icons/tb";
 import { TbEyeX } from "react-icons/tb";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { PropagateLoader } from "react-spinners";
 
@@ -70,8 +70,9 @@ const Registration = () => {
     setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
+          sendEmailVerification(auth.currentUser)
           console.log(user);
-          toast.success("Registration Successfully done.");
+          toast.success("Registration Successfully done. please verify your email");
           setTimeout(() => {
             navigate("/login");
           }, 3000);

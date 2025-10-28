@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { TbEyeUp, TbEyeX } from "react-icons/tb";
-import { Link } from "react-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from "react-router";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { PropagateLoader } from "react-spinners";
 
 const Login = () => {
-    const auth = getAuth();
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
   // input state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,49 +54,70 @@ const Login = () => {
     //         setErroPassword("Plase give strong password..")
     //     }
     // }
-    if(email && password &&  (/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)) ){
-        setLoader(true)
-        signInWithEmailAndPassword(auth, email, password)
-  .then((user) => {
-    toast.success("Login Successfully done..")
-    console.log(user);
-    setLoader(false)
-    
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    if(errorCode.includes("auth/invalid-credential")){
-        toast.error("Plase give right email and password")
-    }
-    console.log(errorCode);
-    setLoader(false)
-    
-  });
+    if (
+      email &&
+      password &&
+      /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
+    ) {
+      setLoader(true);
+      signInWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+          toast.success("Login Successfully done..");
+          console.log(user);
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+          setLoader(false);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode.includes("auth/invalid-credential")) {
+            toast.error("Plase give right email and password");
+          }
+          console.log(errorCode);
+          setLoader(false);
+        });
     }
 
     setEmail("");
     setPassword("");
   };
+
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((user) => {
+        console.log(user);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        console.log(errorCode);
+      });
+  };
   return (
     <div className="bg-[#423e3e6d] w-full h-screen flex items-center">
-        <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Bounce}
-              />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="w-[500px] bg-[#E5EDE4] mx-auto py-[30px] rounded-xl text-center">
         <h2 className="font-primary font-semibold text-[30px] text-primary tracking-[2px]">
           Login to your account!
         </h2>
-        <h4 className="font-secondary text-[18px] cursor-pointer text-orange-500">
+        <h4
+          className="font-secondary text-[18px] cursor-pointer text-orange-500"
+          onClick={handleGoogleLogin}
+        >
           Login with Google
         </h4>
         <div className="w-[350px] mx-auto mt-[30px] relative">
@@ -107,7 +135,7 @@ const Login = () => {
         <div className="w-[350px] mx-auto mt-[30px] relative">
           <input
             onChange={handlePassword}
-            type={passwordShow ? "text" : "password" }
+            type={passwordShow ? "text" : "password"}
             value={password}
             placeholder="Enter your passoword.."
             className="border-2 border-primary px-[10px] py-[8px] w-full outline-0 rounded-xl font-primary text-[14px] text-secondary"
@@ -127,10 +155,13 @@ const Login = () => {
             onClick={handleLogin}
             type="button"
             className="relative w-[200px] border-2 border-primary bg-primary px-[40px] py-[10px] rounded-[8px] font-primary font-semibold text-white tracking-[2px] z-[1] cursor-pointer"
-          > {
-                loader ? <PropagateLoader color="#fff" className="pb-[15px]" /> :  "Login"
-            }
-           
+          >
+            {" "}
+            {loader ? (
+              <PropagateLoader color="#fff" className="pb-[15px]" />
+            ) : (
+              "Login"
+            )}
             <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-red-500 blur-lg w-[30px] h-[30px] z-[-1]"></span>
           </button>
           <p className="pt-[10px] font-secondary text-[14px] text-orange-400 cursor-pointer">
