@@ -59,7 +59,7 @@ const Forgot = () => {
             placeholder="Enter your email.."
             className="border-2 border-primary px-[10px] py-[8px] w-full outline-0 rounded-xl font-primary text-[14px] text-secondary"
           />
-          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-primary">
+          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full px-1 rounded-xl font-primary text-[14px] text-white">
             {erroEmail}
           </p>
         </div>

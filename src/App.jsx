@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import Forgot from "./Pages/Forgot";
 import firebaseConfig from "./components/firebase/firebaseConfig";
 import Home from "./Pages/Home";
+import Welcome from "./Pages/Welcome";
 
 
 function App() {
@@ -12,6 +13,10 @@ function App() {
 const router = createBrowserRouter([
   {
     path: "/",
+    element:<Welcome></Welcome>,
+  },
+  {
+    path: "home",
     element:<Home></Home>,
   },
   {

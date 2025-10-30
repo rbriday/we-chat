@@ -95,7 +95,7 @@ const Registration = () => {
     setPassword("");
   };
   return (
-    <div className="bg-[#423e3e6d] w-full h-screen flex items-center">
+    <div className="bg-gradient-to-br from-indigo-100 to-white w-full h-screen flex items-center">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -109,7 +109,7 @@ const Registration = () => {
         theme="dark"
         transition={Bounce}
       />
-      <div className="w-[500px] bg-[#E5EDE4] mx-auto py-[30px] rounded-xl text-center">
+      <div className="w-[500px] bg-[#E5EDE4] mx-auto py-[30px] rounded-xl text-center shadow-xl">
         <h2 className="font-primary font-semibold text-[30px] text-primary tracking-[2px]">
           Get started with easily register
         </h2>
@@ -124,7 +124,7 @@ const Registration = () => {
             placeholder="Enter your email.."
             className="border-2 border-primary px-[10px] py-[8px] w-full outline-0 rounded-xl font-primary text-[14px] text-secondary"
           />
-          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-primary">
+          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-white">
             {erroEmail}
           </p>
         </div>
@@ -136,7 +136,7 @@ const Registration = () => {
             placeholder="Enter your full name.."
             className="border-2 border-primary px-[10px] py-[8px] w-full outline-0 rounded-xl font-primary text-[14px] text-secondary"
           />
-          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-primary">
+          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-white">
             {erroFullName}
           </p>
         </div>
@@ -148,7 +148,7 @@ const Registration = () => {
             placeholder="Enter your passoword.."
             className="border-2 border-primary px-[10px] py-[8px] w-full outline-0 rounded-xl font-primary text-[14px] text-secondary"
           />
-          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-primary">
+          <p className="absolute bottom-[-25px] left-0 bg-red-500 w-full rounded-xl font-primary text-[14px] text-white">
             {erroPassword}
           </p>
           <div
