@@ -16,7 +16,6 @@ const FriendRequest = () => {
                     </div>
                   </div>
                   <div>
-                    {/* <FaPlus size={25} color="#422AD5" /> */}
                     <button className='border-2 border-primary rounded-[8px] font-primary text-[12px] text-secondary bg-primary px-[5px] py-[2px] cursor-pointer'>Accpet</button>
                   </div>
                 </div>

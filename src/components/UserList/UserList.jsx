@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import friendOne from "../../assets/friendOne.png";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -26,7 +26,14 @@ const UserList = () => {
   }, []);
 
   console.log(userList);
-
+const handleFriendRequest = (item)=>{
+  console.log("okk", item)
+  set(ref(db, "friendRequest/" ), {
+              senderName : data.displayName,
+              receiverName: item.username,
+            });
+  
+}
 
 
   return (
@@ -46,6 +53,7 @@ const UserList = () => {
           </div>
           <div 
           className="cursor-pointer"
+          onClick={()=>handleFriendRequest(user)}
           >
              <FaPlus size={25} color="#422AD5" />
           </div>
