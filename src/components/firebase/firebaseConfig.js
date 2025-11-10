@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyDY2w-ZtDXpPBIT68wv0951RGDwCdjOShs",
   authDomain: "we-chat-41f53.firebaseapp.com",
+  databaseURL: "https://we-chat-41f53-default-rtdb.firebaseio.com",
   projectId: "we-chat-41f53",
   storageBucket: "we-chat-41f53.firebasestorage.app",
   messagingSenderId: "209193475687",

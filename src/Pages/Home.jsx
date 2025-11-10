@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router";
 import SideNavbar from "../components/SideNavbar/SideNavbar";
 import UserList from "../components/UserList/UserList";
+import FriendRequest from "../components/FriendRequest/FriendRequest";
 
 const Home = () => {
   const auth = getAuth();
@@ -39,8 +40,13 @@ const Home = () => {
           <div>
           <SideNavbar></SideNavbar>
         </div>
-        <div>
+        <div className="flex">
+          <div>
           <UserList></UserList>
+        </div>
+          <div>
+          <FriendRequest></FriendRequest>
+        </div>
         </div>
         </div>
         </div>

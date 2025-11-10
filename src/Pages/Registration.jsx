@@ -2,13 +2,20 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { TbEyeUp } from "react-icons/tb";
 import { TbEyeX } from "react-icons/tb";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { PropagateLoader } from "react-spinners";
+import { getDatabase, ref, set } from "firebase/database";
 
 const Registration = () => {
   const auth = getAuth();
   const navigate = useNavigate();
+  const db = getDatabase();
 
   // input state
   const [email, setEmail] = useState("");
@@ -23,7 +30,7 @@ const Registration = () => {
   //password show state
   const [passwordShow, setPasswordShow] = useState(false);
 
-  // loader state 
+  // loader state
   const [loader, setLoader] = useState(false);
 
   //handleEmail
@@ -67,25 +74,34 @@ const Registration = () => {
       password &&
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
     ) {
-    setLoader(true)
+      setLoader(true);
       createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
-          sendEmailVerification(auth.currentUser)
+          sendEmailVerification(auth.currentUser);
           console.log(user);
-          toast.success("Registration Successfully done. please verify your email");
+          updateProfile(auth.currentUser, {
+            displayName:fullName,
+          });
+          toast.success(
+            "Registration Successfully done. please verify your email"
+          );
+          set(ref(db, "users/" + user.user.uid), {
+            username: fullName,
+            email: email,
+          });
           setTimeout(() => {
             navigate("/login");
           }, 3000);
-           setLoader(false)
+          setLoader(false);
         })
-       
+
         .catch((error) => {
           const errorCode = error.code;
-          
-          if(errorCode.includes("auth/email-already-in-use")){
-            toast.error("your email allready used")
+
+          if (errorCode.includes("auth/email-already-in-use")) {
+            toast.error("your email allready used");
           }
-          setLoader(false)
+          setLoader(false);
           // ..
         });
     }
@@ -164,10 +180,12 @@ const Registration = () => {
             type="button"
             className="relative border-2 w-[200px] border-primary bg-primary px-[40px] py-[10px] rounded-[8px] font-primary font-semibold text-white tracking-[2px] z-[1] cursor-pointer"
           >
-            {
-                loader ? <PropagateLoader color="#fff" className="pb-[15px]" /> :  "Registration"
-            }
-            
+            {loader ? (
+              <PropagateLoader color="#fff" className="pb-[15px]" />
+            ) : (
+              "Registration"
+            )}
+
             <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-red-500 blur-lg w-[30px] h-[30px] z-[-1]"></span>
           </button>
           <p className="pt-[10px] font-secondary text-[14px] text-secondary">

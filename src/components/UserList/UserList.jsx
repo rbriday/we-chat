@@ -1,25 +1,59 @@
-import friendOne from '../../assets/friendOne.png'
+import { useEffect, useState } from "react";
+import friendOne from "../../assets/friendOne.png";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { FaPlus } from "react-icons/fa";
+import { useSelector } from "react-redux";
+
+
 
 const UserList = () => {
-    return (
-        <div className='w-[300px] h-[350px] border-2 border-amber-200 rounded-2xl shadow-2xl p-3 ml-[20px]'>
-            <div className='border-2 border-amber-200 rounded-xl shadow-2xl py-[5px] px-[10px] mb-[15px]'>
-                <h3>User List </h3>
+  const [userList, setUserList] = useState([]);
+  const db = getDatabase();
+  
+  const data = useSelector((selector)=>selector.userInfo.value.user)
+
+  useEffect(() => {
+    const userRef = ref(db, "users");
+    onValue(userRef, (snapshot) => {
+      let arry = [];
+      snapshot.forEach((item) => {
+        if(data.uid !== item.key){
+          arry.push(item.val());
+        }
+      });
+      setUserList(arry);
+    });
+  }, []);
+
+  console.log(userList);
+
+
+
+  return (
+    <div className="w-[320px] h-[380px] border-2 border-amber-200 rounded-2xl shadow-2xl p-3 ml-[20px]">
+      <div className="border-2 border-amber-200 rounded-xl shadow-2xl py-[5px] px-[10px] mb-[15px]">
+        <h3 className="font-primary font-semibold text-[20px] text-primary tracking-[2px]">User List </h3>
+      </div>
+      <div className="h-[300px] overflow-y-scroll">
+        {userList.map((user) => (
+        <div className="flex justify-between items-center border-b-2 pb-[5px] mb-2 pr-3">
+          <div className="flex items-center">
+            <img src={friendOne} alt="#friend" />
+            <div className="ml-[10px]">
+              <h3 className="font-primary font-semibold text-primary text-[14px]">{user.username}</h3>
+              <p className="font-secondary text-[10px] text-second">{user.email}</p>
             </div>
-            <div className='flex justify-between items-center border-b-2 pb-[5px]'>
-                <div className='flex items-center'>
-                    <img src= {friendOne} alt="#friend" />
-                    <div className='ml-[10px]'>
-                    <h3>Riday</h3>
-                    <p>Ridaya100@</p>
-                </div>
-                </div>
-                <div>
-                    <button>send</button>
-                </div>
-            </div>
+          </div>
+          <div 
+          className="cursor-pointer"
+          >
+             <FaPlus size={25} color="#422AD5" />
+          </div>
         </div>
-    );
+      ))}
+      </div>
+    </div>
+  );
 };
 
 export default UserList;
